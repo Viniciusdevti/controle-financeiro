@@ -1,3 +1,5 @@
+using ControleFinanceiro.Service.Interfaces;
+using ControleFinanceiro.Service.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -23,6 +25,7 @@ namespace ControleFinanceiro
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<ICategoriaService>(new CategoriaService(Configuration.GetSection("SQLSERVER").GetSection("CONNECTIONSTRING").Value));
             services.AddControllersWithViews();
         }
 

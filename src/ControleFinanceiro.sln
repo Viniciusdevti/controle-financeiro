@@ -3,15 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleFinanceiro.Api", "ControleFinanceiro\ControleFinanceiro.Api.csproj", "{55379E35-6D55-42AE-92CD-310F81F8B50E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleFinanceiro.Api", "ControleFinanceiro\ControleFinanceiro.Api.csproj", "{55379E35-6D55-42AE-92CD-310F81F8B50E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleFinanceiro.Service", "ControleFinanceiro.Service\ControleFinanceiro.Service.csproj", "{291F2587-2899-4163-B89D-EB3322D745A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleFinanceiro.Service", "ControleFinanceiro.Service\ControleFinanceiro.Service.csproj", "{291F2587-2899-4163-B89D-EB3322D745A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleFinanceiro.UnitTests", "ControleFinanceiro.UnitTests\ControleFinanceiro.UnitTests.csproj", "{311596F0-3AC7-460D-A743-67077A67C566}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleFinanceiro.UnitTests", "ControleFinanceiro.UnitTests\ControleFinanceiro.UnitTests.csproj", "{311596F0-3AC7-460D-A743-67077A67C566}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleFinanceiro.Model", "ControleFinanceiro.Model\ControleFinanceiro.Model.csproj", "{BDC4C39D-2BB7-46CA-8CF7-D4E1E3C10393}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleFinanceiro.Repository", "ControleFinanceiro.Repository\ControleFinanceiro.Repository.csproj", "{1A2D0738-EACA-43F4-9BCF-2C59F5982E73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControleFinanceiro.DataContext", "ControleFinanceiro.Repository\ControleFinanceiro.DataContext.csproj", "{1A2D0738-EACA-43F4-9BCF-2C59F5982E73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +29,6 @@ Global
 		{311596F0-3AC7-460D-A743-67077A67C566}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{311596F0-3AC7-460D-A743-67077A67C566}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{311596F0-3AC7-460D-A743-67077A67C566}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BDC4C39D-2BB7-46CA-8CF7-D4E1E3C10393}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BDC4C39D-2BB7-46CA-8CF7-D4E1E3C10393}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BDC4C39D-2BB7-46CA-8CF7-D4E1E3C10393}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BDC4C39D-2BB7-46CA-8CF7-D4E1E3C10393}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1A2D0738-EACA-43F4-9BCF-2C59F5982E73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1A2D0738-EACA-43F4-9BCF-2C59F5982E73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A2D0738-EACA-43F4-9BCF-2C59F5982E73}.Release|Any CPU.ActiveCfg = Release|Any CPU
