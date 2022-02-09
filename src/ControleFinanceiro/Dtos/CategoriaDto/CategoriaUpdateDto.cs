@@ -1,12 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-namespace ControleFinanceiro.Model.Models
 
+namespace ControleFinanceiro.Api.Dtos.CategoriaDto
 {
-    [Table("Categoria")]
-    public class Categoria
+    public class CategoriaUpdateDto
     {
-        [Key]
+        [Required]
         public long IdCategoria { get; set; }
 
         [Required]

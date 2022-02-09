@@ -33,7 +33,7 @@ namespace ControleFinanceiro.Repository.Repository
 
         public void Create(TTable entity) { table.Add(entity); SaveChanges(); }
 
-        public void Edit(TTable entity, int id)
+        public void Edit(TTable entity, long id)
         {
             var result = table.Find(id);
 
