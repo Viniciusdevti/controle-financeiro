@@ -5,7 +5,7 @@ using System.Net;
 
 namespace iCommercial.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class CategoriaController : ControllerBase
     {
@@ -18,6 +18,7 @@ namespace iCommercial.Api.Controllers
         }
 
         [HttpGet]
+        [ApiKey]
         public ActionResult GetAll()
         {
 
@@ -31,4 +32,4 @@ namespace iCommercial.Api.Controllers
     }
 }
 
-    
+
