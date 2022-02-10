@@ -12,6 +12,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using System.Text.Json;
+using System.Net.Mime;
+using Microsoft.AspNetCore.Http;
 
 namespace ControleFinanceiro
 {
@@ -29,10 +33,11 @@ namespace ControleFinanceiro
         {
             services.AddSingleton<ICategoriaService>(new CategoriaService(Configuration.GetSection("SQLSERVER").GetSection("CONNECTIONSTRING").Value));
             services.AddControllersWithViews();
+            services.AddHealthChecks();
 
             services.AddSwaggerGen(swagger =>
             {
-                 swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "Controle Financeiro", Version = "v1" });
+                swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "Controle Financeiro", Version = "v1" });
 
                 swagger.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
                 {
@@ -45,40 +50,63 @@ namespace ControleFinanceiro
 
             });
         }
-       
-// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-{
-    if (env.IsDevelopment())
-    {
-        app.UseDeveloperExceptionPage();
-    }
-    else
-    {
-        app.UseExceptionHandler("/Home/Error");
-        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-        app.UseHsts();
-    }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
             app.UseSwagger();
             app.UseSwaggerUI(opt =>
             {
                 opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Controle Financeiro v1");
             });
-                
-    app.UseHttpsRedirection();
-    app.UseStaticFiles();
 
-    app.UseRouting();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
-    app.UseAuthentication();
-    app.UseAuthorization();
+            app.UseRouting();
 
-    app.UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
-    });
-}
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            app.UseHealthChecks("/status",
+                  new HealthCheckOptions()
+                  {
+                      ResponseWriter = async (context, report) =>
+                      {
+                          var result = JsonSerializer.Serialize(
+                              new
+                              {
+                                  currentTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                                  statusApplication = report.Status.ToString(),
+                                  //healthChecks = report.Entries.Select(e => new
+                                  //{
+                                  //    check = e.Key,
+                                  //    status = Enum.GetName(typeof(HealthStatus), e.Value.Status)
+                                  //})
+                              });
+
+                          context.Response.ContentType = MediaTypeNames.Application.Json;
+                          await context.Response.WriteAsync(result);
+                      }
+                  });
+
+        }
     }
 }
