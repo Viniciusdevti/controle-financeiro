@@ -11,7 +11,7 @@ namespace ControleFinanceiro.Repository.Interfaces
     {
             void Create(T entity);
             T Find(params object[] keyValues);
-            void Edit(T entity, long id);
+            void Edit(T entity, T entityAlter);
             void Remove(int[] keyValues);
             void Remove(T entity);
             List<T> List(string foreignKey = null);

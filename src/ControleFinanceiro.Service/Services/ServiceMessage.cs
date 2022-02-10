@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ControleFinanceiro.Service.Services
 {
-    public class ServiceMessage
+   public class ServiceMessage<T>
     {
 
         public ServiceMessage()
@@ -20,8 +20,8 @@ namespace ControleFinanceiro.Service.Services
 
         public string Errors;
 
-        public IEnumerable<object> ResultList { get; set; }
-        public object Result { get; set; }
+        public List<T> ResultList { get; set; }
+        public T Result { get; set; }
 
         public void AddReturnInternalError(string message)
         {

@@ -33,23 +33,24 @@ namespace ControleFinanceiro.Repository.Repository
 
         public void Create(TTable entity) { table.Add(entity); SaveChanges(); }
 
-        public void Edit(TTable entity, long id)
+        public void Edit(TTable entity, TTable entityAlter)
         {
-            var result = table.Find(id);
 
-            db.Entry(result).CurrentValues.SetValues(entity);
+            db.Entry(entity).CurrentValues.SetValues(entityAlter);
             SaveChanges();
-
 
         }
 
         public TTable Find(params object[] keyValues) => table.Find(keyValues);
+
+        public TTable Find(Expression<Func<TTable, bool>> expression) => table.Where(expression).FirstOrDefault();
 
         public List<TTable> List(string foreignKey = null)
         {
             if (!string.IsNullOrEmpty(foreignKey)) return table.Include(foreignKey).ToList();
             return table.AsNoTracking().ToList();
         }
+        public List<TTable> List(Expression<Func<TTable, bool>> expression) => table.AsNoTracking().Where(expression).ToList();
 
         public void Remove(int[] keyValues)
         {
@@ -66,6 +67,12 @@ namespace ControleFinanceiro.Repository.Repository
         public void Remove(TTable entity)
         {
             table.Remove(entity);
+            SaveChanges();
+        }
+
+        public void Delete(TTable entity, TTable entityAlter)
+        {
+            db.Entry(entity).CurrentValues.SetValues(entityAlter);
             SaveChanges();
         }
     }

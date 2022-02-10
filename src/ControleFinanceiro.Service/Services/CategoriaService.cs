@@ -18,35 +18,35 @@ namespace ControleFinanceiro.Service.Services
         {
             myRepository = new BaseRepository<ControleFinanceiroDb, Categoria>(stringConnection);
         }
-        public ServiceMessage GetAll()
+        public ServiceMessage<Categoria> GetAll()
         {
-            ServiceMessage serviceMessage = new();
+            ServiceMessage<Categoria> serviceMessage = new();
             try
             {
 
-            ICollection<Categoria> result = myRepository.List();
+                List<Categoria> result = myRepository.List(x => x.Ativo == true);
 
-            serviceMessage.Successfull = true;
-            serviceMessage.Result = result;
+                serviceMessage.Successfull = true;
+                serviceMessage.ResultList = result;
 
-            return serviceMessage;
-            } 
+                return serviceMessage;
+            }
             catch (Exception ex)
             {
                 serviceMessage.AddReturnInternalError(ex.Message);
                 return serviceMessage;
             }
-            
+
         }
 
-        public ServiceMessage Get(long id)
+        public ServiceMessage<Categoria> Get(long id)
         {
-            ServiceMessage serviceMessage = new();
+            ServiceMessage<Categoria> serviceMessage = new();
             try
             {
-                var result = myRepository.Find(id);
+                var result = myRepository.Find(x => x.IdCategoria == id && x.Ativo == true);
 
-                if(result == null)
+                if (result == null)
                 {
                     serviceMessage.AddReturnBadRequest("Id não encontrado.", EnumErrors.IdNotFound.ToString());
                     return serviceMessage;
@@ -64,9 +64,9 @@ namespace ControleFinanceiro.Service.Services
             }
         }
 
-        public ServiceMessage Post(Categoria categoria)
+        public ServiceMessage<Categoria> Post(Categoria categoria)
         {
-            ServiceMessage serviceMessage = new();
+            ServiceMessage<Categoria> serviceMessage = new();
             try
             {
 
@@ -82,12 +82,12 @@ namespace ControleFinanceiro.Service.Services
             }
         }
 
-        public ServiceMessage Put(Categoria categoria)
+        public ServiceMessage<Categoria> Put(Categoria categoria)
         {
-            ServiceMessage serviceMessage = new();
+            ServiceMessage<Categoria> serviceMessage = new();
             try
             {
-                var result = myRepository.Find(categoria.IdCategoria);
+                var result = myRepository.Find(x => x.IdCategoria == categoria.IdCategoria && x.Ativo == true);
 
                 if (result == null)
                 {
@@ -95,9 +95,7 @@ namespace ControleFinanceiro.Service.Services
                     return serviceMessage;
                 }
 
-                myRepository.Edit(categoria, categoria.IdCategoria);
-
-                serviceMessage.Result = result;
+                myRepository.Edit(result, categoria);
 
                 serviceMessage.Successfull = true;
                 return serviceMessage;
@@ -109,9 +107,34 @@ namespace ControleFinanceiro.Service.Services
             }
         }
 
-        public ServiceMessage Delete()
+        public ServiceMessage<Categoria> Delete(long id)
         {
-            throw new NotImplementedException();
+            ServiceMessage<Categoria> serviceMessage = new();
+            try
+            {
+                var result = myRepository.Find(x => x.IdCategoria == id && x.Ativo == true);
+
+                if (result == null)
+                {
+                    serviceMessage.AddReturnBadRequest("Id não encontrado.", EnumErrors.IdNotFound.ToString());
+                    return serviceMessage;
+                }
+
+                var entityAlter = result;
+                entityAlter.Ativo = false;
+
+                myRepository.Delete(result, entityAlter);
+
+
+                serviceMessage.Successfull = true;
+                return serviceMessage;
+            }
+            catch (Exception ex)
+            {
+                serviceMessage.AddReturnInternalError(ex.Message);
+                return serviceMessage;
+            }
         }
     }
 }
+

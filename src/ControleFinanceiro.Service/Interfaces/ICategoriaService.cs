@@ -6,10 +6,10 @@ namespace ControleFinanceiro.Service.Interfaces
 {
     public interface ICategoriaService
     {
-        ServiceMessage GetAll();
-        ServiceMessage Get(long id);
-        ServiceMessage Post(Categoria categoria);
-        ServiceMessage Put(Categoria categoria);
-        ServiceMessage Delete();
+        ServiceMessage<Categoria> GetAll();
+        ServiceMessage<Categoria> Get(long id);
+        ServiceMessage<Categoria> Post(Categoria categoria);
+        ServiceMessage<Categoria> Put(Categoria categoria);
+        ServiceMessage<Categoria> Delete(long id);
     }
 }

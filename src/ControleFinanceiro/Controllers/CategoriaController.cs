@@ -6,6 +6,7 @@ using ControleFinanceiro.Service.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Net;
 
 namespace iCommercial.Api.Controllers
@@ -28,14 +29,16 @@ namespace iCommercial.Api.Controllers
         {
 
             var result = _service.GetAll();
+            var resultFinal = result.ResultList.Select(x => new { x.IdCategoria, x.Nome });
+
             if (result.Successfull)
-                return Ok(result.Result);
+                return Ok(resultFinal);
 
             else
-                return result.CodeHttp == 400 
+                return result.CodeHttp == 400
                     ? BadRequest(result.Message)
-                    : StatusCode(StatusCodes.Status500InternalServerError, 
-                     new ErrorDto { Codigo = result.CodeError, Mensagem = result.Message});
+                    : StatusCode(StatusCodes.Status500InternalServerError,
+                     new ErrorDto { Codigo = result.CodeError, Mensagem = result.Message });
 
         }
 
@@ -45,9 +48,16 @@ namespace iCommercial.Api.Controllers
         {
 
             var result = _service.Get(id);
+           
             if (result.Successfull)
-                return Ok(result.Result);
-
+            {
+                var resultFinal = new CategoriaGetDto
+                {
+                    IdCategoria = result.Result.IdCategoria,
+                    Nome = result.Result.Nome
+                };
+                return Ok(resultFinal);
+            }
 
             else
             {
@@ -82,7 +92,8 @@ namespace iCommercial.Api.Controllers
         public ActionResult Put(CategoriaUpdateDto categoriaDto)
         {
 
-            var categoria = new Categoria {
+            var categoria = new Categoria
+            {
                 IdCategoria = categoriaDto.IdCategoria,
                 Nome = categoriaDto.Nome,
             };
@@ -102,7 +113,25 @@ namespace iCommercial.Api.Controllers
 
         }
 
+        [HttpDelete]
+        [ApiKey]
+        public ActionResult Delete(long id)
+        {
+
+            var result = _service.Delete(id);
+            if (result.Successfull)
+                return Ok();
+
+            else
+            {
+                var error = new ErrorDto { Codigo = result.CodeError, Mensagem = result.Message };
+                return result.CodeHttp == 400
+                    ? BadRequest(error)
+                    : StatusCode(StatusCodes.Status500InternalServerError, error);
+            }
+
+        }
     }
-   }
+}
 
 
