@@ -14,5 +14,6 @@ namespace ControleFinanceiro.Model.Models
         [Required]
         public DateTime Data { get; set; }
         public string Comentario { get; set; }
+        public bool Ativo { get; set; } = true;
     }
 }

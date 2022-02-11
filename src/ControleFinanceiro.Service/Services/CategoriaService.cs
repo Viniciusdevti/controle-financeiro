@@ -1,5 +1,4 @@
 ﻿using ControleFinanceiro.Api.Helpers.Error;
-using ControleFinanceiro.Data.Interfaces;
 using ControleFinanceiro.DataContext;
 using ControleFinanceiro.Model.Models;
 using ControleFinanceiro.Repository.Repository;

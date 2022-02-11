@@ -9,8 +9,14 @@ namespace ControleFinanceiro.Model.Models
         [Key]
         public long IdSubCategoria { get; set; }
         [Required]
-        public int Nome { get; set; }
+        public string Nome { get; set; }
+
         [Required]
+        [ForeignKey("Categoria")]
         public long IdCategoria { get; set; }
+
+        public virtual  Categoria Categoria { get; set; }
+
+        public bool Ativo { get; set; } = true;
     }
 }

@@ -6,7 +6,6 @@ namespace ControleFinanceiro.Api.Dtos.CategoriaDto
     {
         [Required]
         public long IdCategoria { get; set; }
-
         [Required]
         public string Nome { get; set; }
     }

@@ -17,5 +17,7 @@ namespace ControleFinanceiro.DataContext
             optionsBuilder.UseSqlServer(myStringConnection);
         }
         public DbSet<Categoria> Categoria { get; set; }
+        public DbSet<SubCategoria> SubCategoria { get; set; }
+        public DbSet<Lancamento> Lancamento { get; set; }
     }
 }

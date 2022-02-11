@@ -33,6 +33,8 @@ namespace ControleFinanceiro
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<ICategoriaService>(new CategoriaService(Configuration.GetSection("SQLSERVER").GetSection("CONNECTIONSTRING").Value));
+            services.AddSingleton<ISubCategoriaService>(new SubCategoriaService(Configuration.GetSection("SQLSERVER").GetSection("CONNECTIONSTRING").Value));
+            services.AddSingleton<ICategoriaService>(new CategoriaService(Configuration.GetSection("SQLSERVER").GetSection("CONNECTIONSTRING").Value));
            
             services.AddControllersWithViews();
 
