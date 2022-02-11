@@ -16,7 +16,7 @@ using System.Net.Mime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using HealthChecks.UI.Client;
-
+using ControleFinanceiro.Api.Helpers;
 
 namespace ControleFinanceiro
 {
@@ -35,7 +35,16 @@ namespace ControleFinanceiro
             services.AddSingleton<ICategoriaService>(new CategoriaService(Configuration.GetSection("SQLSERVER").GetSection("CONNECTIONSTRING").Value));
             services.AddSingleton<ISubCategoriaService>(new SubCategoriaService(Configuration.GetSection("SQLSERVER").GetSection("CONNECTIONSTRING").Value));
             services.AddSingleton<ICategoriaService>(new CategoriaService(Configuration.GetSection("SQLSERVER").GetSection("CONNECTIONSTRING").Value));
-           
+
+            services.AddControllers().ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var result = new ValidationFailedResult(context.ModelState);
+
+                    return result;
+                };
+            });
             services.AddControllersWithViews();
 
             services.AddSwaggerGen(swagger =>
@@ -62,7 +71,7 @@ namespace ControleFinanceiro
             services.AddHealthChecksUI()
                 .AddInMemoryStorage();
 
-
+            
 
         }
 

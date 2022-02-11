@@ -25,7 +25,7 @@ namespace ControleFinanceiro.Service.Services
 
         public void AddReturnInternalError(string message)
         {
-           CodeError = EnumErrors.InternalError.ToString();
+           CodeError = EnumErrors.ErroInterno.ToString();
            Message = message;
            CodeHttp = 500;
         }

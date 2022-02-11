@@ -4,9 +4,10 @@ namespace ControleFinanceiro.Api.Helpers.Error
 {
     public enum EnumErrors
     {
-        IdNotFound,
-        InternalError,
-        
+        IdNaoEncontrado,
+        ErroInterno,
+        CampoObrigatorio,
+        MaximoCaracteres
 
     }
 }

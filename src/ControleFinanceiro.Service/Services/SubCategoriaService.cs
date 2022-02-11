@@ -49,7 +49,7 @@ namespace ControleFinanceiro.Service.Services
 
                 if (result == null)
                 {
-                    serviceMessage.AddReturnBadRequest("Id não encontrado.", EnumErrors.IdNotFound.ToString());
+                    serviceMessage.AddReturnBadRequest("Id não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
                     return serviceMessage;
                 }
 
@@ -119,7 +119,7 @@ namespace ControleFinanceiro.Service.Services
 
                 if (result == null)
                 {
-                    serviceMessage.AddReturnBadRequest("Id não encontrado.", EnumErrors.IdNotFound.ToString());
+                    serviceMessage.AddReturnBadRequest("Id não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
                     return serviceMessage;
                 }
 
@@ -144,20 +144,20 @@ namespace ControleFinanceiro.Service.Services
 
             if (entity == null)
             {
-                serviceMessage.AddReturnBadRequest("Id subCategoria não encontrado.", EnumErrors.IdNotFound.ToString());
+                serviceMessage.AddReturnBadRequest("Id subCategoria não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
                 return;
             }
 
             if (!myRepositoryCategoia.Any(x=> x.IdCategoria == id && x.Ativo == true ))
             {
-                serviceMessage.AddReturnBadRequest("Id categoria não encontrado.", EnumErrors.IdNotFound.ToString());
+                serviceMessage.AddReturnBadRequest("Id categoria não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
             }
         }
         public void ValidationErrosPost(long id, ServiceMessage<SubCategoria> serviceMessage) 
         {
             if (!myRepositoryCategoia.Any(x=> x.IdCategoria == id && x.Ativo == true ))
             {
-                serviceMessage.AddReturnBadRequest("Id categoria não encontrado.", EnumErrors.IdNotFound.ToString());
+                serviceMessage.AddReturnBadRequest("Id categoria não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
             }
         }
     }

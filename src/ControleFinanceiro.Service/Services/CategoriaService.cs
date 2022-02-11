@@ -47,7 +47,7 @@ namespace ControleFinanceiro.Service.Services
 
                 if (result == null)
                 {
-                    serviceMessage.AddReturnBadRequest("Id não encontrado.", EnumErrors.IdNotFound.ToString());
+                    serviceMessage.AddReturnBadRequest("Id não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
                     return serviceMessage;
                 }
 
@@ -90,7 +90,7 @@ namespace ControleFinanceiro.Service.Services
 
                 if (result == null)
                 {
-                    serviceMessage.AddReturnBadRequest("Id não encontrado.", EnumErrors.IdNotFound.ToString());
+                    serviceMessage.AddReturnBadRequest("Id não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
                     return serviceMessage;
                 }
 
@@ -115,7 +115,7 @@ namespace ControleFinanceiro.Service.Services
 
                 if (result == null)
                 {
-                    serviceMessage.AddReturnBadRequest("Id não encontrado.", EnumErrors.IdNotFound.ToString());
+                    serviceMessage.AddReturnBadRequest("Id não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
                     return serviceMessage;
                 }
 
