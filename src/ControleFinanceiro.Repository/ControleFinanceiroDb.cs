@@ -11,10 +11,11 @@ namespace ControleFinanceiro.DataContext
         {
             myStringConnection = stringConnection;
         }
-
+        public ControleFinanceiroDb(DbContextOptions<ControleFinanceiroDb> options) : base(options) { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(myStringConnection);
+            if (!string.IsNullOrEmpty(myStringConnection))
+                optionsBuilder.UseSqlServer(myStringConnection);
         }
         public DbSet<Categoria> Categoria { get; set; }
         public DbSet<SubCategoria> SubCategoria { get; set; }

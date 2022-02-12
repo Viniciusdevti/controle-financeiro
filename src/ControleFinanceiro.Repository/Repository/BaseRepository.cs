@@ -22,7 +22,15 @@ namespace ControleFinanceiro.Repository.Repository
 
         public BaseRepository(string stringConnection)
         {
-            db = (TDBContext)Activator.CreateInstance(typeof(TDBContext), new object[] { stringConnection });
+            object parameterDB = stringConnection;
+            if (stringConnection == ":memory:")
+            {
+                parameterDB = new DbContextOptionsBuilder<TDBContext>()
+                                .UseInMemoryDatabase(databaseName: "QADB")
+                                .Options;
+            }
+
+            db = (TDBContext)Activator.CreateInstance(typeof(TDBContext), new object[] { parameterDB });
             table = db.Set<TTable>();
             StringConnection = stringConnection;
         }
