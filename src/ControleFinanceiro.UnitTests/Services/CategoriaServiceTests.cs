@@ -37,7 +37,7 @@ namespace ControleFinanceiro.UnitTests.Services
         [Fact]
         public void Get_SendingValid()
         {
-            var result = categoriaService.Get();
+            var result = categoriaService.Get(1);
             Assert.True(result.Successfull);
         }
 
