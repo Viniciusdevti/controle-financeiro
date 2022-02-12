@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ControleFinanceiro.Api.Helpers;
+using System.ComponentModel.DataAnnotations;
 
 namespace ControleFinanceiro.Api.Dtos.CategoriaDto
 {
@@ -7,8 +8,12 @@ namespace ControleFinanceiro.Api.Dtos.CategoriaDto
         [Range(0, int.MaxValue, ErrorMessage = "Campo IdCategoria é obrigatorio . #RequiredField")]
         public long IdCategoria { get; set; } = -1;
 
+        
         [Required(ErrorMessage = "Campo Nome é obrigatorio . #RequiredField")]
         [StringLength(300, ErrorMessage = "Quantidade maxima de caracteres para nome é 300. #MaximoCaracteres")]
         public string Nome { get; set; }
+
+
+
     }
 }

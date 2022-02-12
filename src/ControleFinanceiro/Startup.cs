@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using HealthChecks.UI.Client;
 using ControleFinanceiro.Api.Helpers;
+using ControleFinanceiro.Api.Helpers.ValidationModelState;
 
 namespace ControleFinanceiro
 {
@@ -38,6 +39,7 @@ namespace ControleFinanceiro
 
             services.AddControllers().ConfigureApiBehaviorOptions(options =>
             {
+
                 options.InvalidModelStateResponseFactory = context =>
                 {
                     var result = new ValidationFailedResult(context.ModelState);
@@ -45,6 +47,8 @@ namespace ControleFinanceiro
                     return result;
                 };
             });
+
+
             services.AddControllersWithViews();
 
             services.AddSwaggerGen(swagger =>
