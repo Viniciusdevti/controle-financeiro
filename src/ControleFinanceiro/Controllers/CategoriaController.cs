@@ -91,8 +91,10 @@ namespace iCommercial.Api.Controllers
 
         [HttpPut]
         [ApiKey]
-        public ActionResult Put(CategoriaUpdateDto categoriaDto)
+        public ActionResult Put([FromBody] CategoriaUpdateDto categoriaDto)
         {
+
+            
 
             var categoria = new Categoria
             {
