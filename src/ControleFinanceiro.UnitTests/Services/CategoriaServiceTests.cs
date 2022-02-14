@@ -46,6 +46,14 @@ namespace ControleFinanceiro.UnitTests.Services
         }
 
         [Fact]
+        public void InvalidServiceGet()
+        {
+            var result = categoriaService.Get(100);
+            Assert.Equal(result.CodeError, EnumErrors.IdNaoEncontrado.ToString());
+        }
+
+
+        [Fact]
         public void ValidationServicePost()
         {
             var result = categoriaService.Post(new Categoria {  Nome = "Categoria 2" });
@@ -60,7 +68,7 @@ namespace ControleFinanceiro.UnitTests.Services
         }
 
         [Fact]
-        public void ValidationServicePutError()
+        public void InvalidServicePut()
         {
             var result = categoriaService.Put(new Categoria { IdCategoria = 100, Nome = "Categoria 0" });
             Assert.Equal(result.CodeError, EnumErrors.IdNaoEncontrado.ToString());
@@ -71,6 +79,13 @@ namespace ControleFinanceiro.UnitTests.Services
         {
             var result = categoriaService.Delete(1);
             Assert.True(result.Successfull);
+        }
+
+        [Fact]
+        public void InvalidServiceDelete()
+        {
+            var result = categoriaService.Delete(100);
+            Assert.Equal(result.CodeError, EnumErrors.IdNaoEncontrado.ToString());
         }
     }
 

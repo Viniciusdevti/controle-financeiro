@@ -72,9 +72,9 @@ namespace iCommercial.Api.Controllers
         }
         [HttpPost]
         [ApiKey]
-        public ActionResult Post(string nome)
+        public ActionResult Post(CategoriaCreateDto categoriaDto)
         {
-            var categoria = new Categoria { Nome = nome };
+            var categoria = new Categoria { Nome = categoriaDto.Nome };
             var result = _service.Post(categoria);
             if (result.Successfull)
                 return StatusCode(StatusCodes.Status201Created);
