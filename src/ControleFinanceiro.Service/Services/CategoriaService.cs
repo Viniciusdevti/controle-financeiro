@@ -11,6 +11,7 @@ namespace ControleFinanceiro.Service.Services
     public class CategoriaService : ICategoriaService
     {
         private BaseRepository<ControleFinanceiroDb, Categoria> myRepository;
+
         public void Dispose() => myRepository = null;
 
         public CategoriaService(string stringConnection)
@@ -48,6 +49,7 @@ namespace ControleFinanceiro.Service.Services
                 if (result == null)
                 {
                     serviceMessage.AddReturnBadRequest("Id não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
+                    serviceMessage.CodeHttp = 400;
                     return serviceMessage;
                 }
 
@@ -68,6 +70,20 @@ namespace ControleFinanceiro.Service.Services
             ServiceMessage<Categoria> serviceMessage = new();
             try
             {
+                var categoriaEntity = myRepository.Any(x => x.Nome == categoria.Nome && x.Ativo == true);
+
+                if (categoriaEntity)
+                {
+
+                    serviceMessage.AddReturnBadRequest("O campo nome deve ser unico",
+                        EnumErrors.CampoUnico.ToString());
+                    serviceMessage.CodeHttp = 400;
+
+                    return serviceMessage;
+
+                }
+
+
 
                 myRepository.Create(categoria);
 
@@ -90,9 +106,26 @@ namespace ControleFinanceiro.Service.Services
 
                 if (result == null)
                 {
-                    serviceMessage.AddReturnBadRequest("Id não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
+
+                    serviceMessage.AddReturnBadRequest("Id da categoria não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
+                    serviceMessage.CodeHttp = 400;
                     return serviceMessage;
                 }
+
+
+                var categoriaEntity = myRepository.Any(
+                    x => x.Nome == categoria.Nome && x.IdCategoria != categoria.IdCategoria && x.Ativo == true);
+
+                if (categoriaEntity)
+                    serviceMessage.AddReturnBadRequest("O campo nome deve ser unico",
+                    EnumErrors.CampoUnico.ToString());
+
+                if (serviceMessage.Mensagens.Count > 0)
+                {
+                    serviceMessage.CodeHttp = 400;
+                    return serviceMessage;
+                }
+
 
                 myRepository.Edit(result, categoria);
 
@@ -116,6 +149,7 @@ namespace ControleFinanceiro.Service.Services
                 if (result == null)
                 {
                     serviceMessage.AddReturnBadRequest("Id não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
+                    serviceMessage.CodeHttp = 400;
                     return serviceMessage;
                 }
 

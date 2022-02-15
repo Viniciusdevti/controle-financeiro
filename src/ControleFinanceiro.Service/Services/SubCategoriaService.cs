@@ -49,7 +49,8 @@ namespace ControleFinanceiro.Service.Services
 
                 if (result == null)
                 {
-                    serviceMessage.AddReturnBadRequest("Id não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
+                    serviceMessage.AddReturnBadRequest("Id  não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
+                    serviceMessage.CodeHttp = 400;
                     return serviceMessage;
                 }
 
@@ -65,17 +66,22 @@ namespace ControleFinanceiro.Service.Services
             }
         }
 
-        public ServiceMessage<SubCategoria> Post(SubCategoria SubCategoria)
+        public ServiceMessage<SubCategoria> Post(SubCategoria subCategoria)
         {
             ServiceMessage<SubCategoria> serviceMessage = new();
             try
             {
-                ValidationErrosPost(SubCategoria.IdCategoria, serviceMessage);
-
-                if (serviceMessage.CodeHttp != 0)
+                var resultSubCategoria = myRepository.Any(
+                  x => x.Nome == subCategoria.Nome && x.Ativo == true);
+                ValidationErrosPost(subCategoria.IdCategoria, serviceMessage, resultSubCategoria);
+                
+                if (serviceMessage.Mensagens.Count > 0)
+                {
+                    serviceMessage.CodeHttp = 400;
                     return serviceMessage;
+                }
 
-                myRepository.Create(SubCategoria);
+                myRepository.Create(subCategoria);
                 serviceMessage.Successfull = true;
                 return serviceMessage;
             }
@@ -86,19 +92,23 @@ namespace ControleFinanceiro.Service.Services
             }
         }
 
-        public ServiceMessage<SubCategoria> Put(SubCategoria SubCategoria)
+        public ServiceMessage<SubCategoria> Put(SubCategoria subCategoria)
         {
             ServiceMessage<SubCategoria> serviceMessage = new();
             try
             {
-                var result = myRepository.Find(x => x.IdSubCategoria == SubCategoria.IdSubCategoria && x.Ativo == true);
+                var result = myRepository.Find(x => x.IdSubCategoria == subCategoria.IdSubCategoria && x.Ativo == true);
+                var resultCategoria = myRepository.Any(
+                   x => x.Nome == subCategoria.Nome && x.IdSubCategoria != subCategoria.IdCategoria && x.Ativo == true);
+                ValidationErrosUpdate(subCategoria.IdCategoria, serviceMessage, result, resultCategoria);
 
-                ValidationErrosUpdate(SubCategoria.IdCategoria, serviceMessage, result);
-
-                if (serviceMessage.CodeHttp != 0)
+                if (serviceMessage.Mensagens.Count > 0)
+                {
+                    serviceMessage.CodeHttp = 400;
                     return serviceMessage;
+                }
 
-                myRepository.Edit(result, SubCategoria);
+                myRepository.Edit(result, subCategoria);
 
                 serviceMessage.Successfull = true;
                 return serviceMessage;
@@ -120,6 +130,7 @@ namespace ControleFinanceiro.Service.Services
                 if (result == null)
                 {
                     serviceMessage.AddReturnBadRequest("Id não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
+                    serviceMessage.CodeHttp = 400;
                     return serviceMessage;
                 }
 
@@ -139,26 +150,35 @@ namespace ControleFinanceiro.Service.Services
             }
         }
 
-        public void ValidationErrosUpdate(long id, ServiceMessage<SubCategoria> serviceMessage, SubCategoria entity) 
+        public void ValidationErrosUpdate(long id, ServiceMessage<SubCategoria> serviceMessage, SubCategoria entity, bool resultSubCategoria)
         {
 
             if (entity == null)
-            {
                 serviceMessage.AddReturnBadRequest("Id subCategoria não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
+
+
+            if (!myRepositoryCategoia.Any(x => x.IdCategoria == id && x.Ativo == true))
+            {
+                serviceMessage.AddReturnBadRequest("Id categoria não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
                 return;
             }
 
-            if (!myRepositoryCategoia.Any(x=> x.IdCategoria == id && x.Ativo == true ))
-            {
-                serviceMessage.AddReturnBadRequest("Id categoria não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
-            }
+            if (resultSubCategoria)
+                serviceMessage.AddReturnBadRequest("O campo nome deve ser unico",
+                EnumErrors.CampoUnico.ToString());
+
         }
-        public void ValidationErrosPost(long id, ServiceMessage<SubCategoria> serviceMessage) 
+        public void ValidationErrosPost(long id, ServiceMessage<SubCategoria> serviceMessage, bool resultSubCategoria)
         {
-            if (!myRepositoryCategoia.Any(x=> x.IdCategoria == id && x.Ativo == true ))
+            if (!myRepositoryCategoia.Any(x => x.IdCategoria == id && x.Ativo == true))
             {
                 serviceMessage.AddReturnBadRequest("Id categoria não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
+                return;
             }
+
+            if (resultSubCategoria)
+                serviceMessage.AddReturnBadRequest("O campo nome deve ser unico",
+                EnumErrors.CampoUnico.ToString());
         }
     }
 }

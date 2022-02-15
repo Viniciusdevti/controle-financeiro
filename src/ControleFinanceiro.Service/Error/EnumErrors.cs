@@ -7,7 +7,8 @@ namespace ControleFinanceiro.Api.Helpers.Error
         IdNaoEncontrado,
         ErroInterno,
         CampoObrigatorio,
-        MaximoCaracteres
+        MaximoCaracteres,
+        CampoUnico,
 
     }
 }

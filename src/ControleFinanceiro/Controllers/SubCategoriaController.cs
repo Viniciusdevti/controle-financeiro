@@ -14,12 +14,12 @@ namespace ControleFinanceiro.Api.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class SubCategoriaService : ControllerBase
+    public class SubCategoriaController : ControllerBase
     {
 
         private readonly ISubCategoriaService _service;
 
-        public SubCategoriaService(ISubCategoriaService service)
+        public SubCategoriaController(ISubCategoriaService service)
         {
             _service = service;
         }
@@ -37,9 +37,8 @@ namespace ControleFinanceiro.Api.Controllers
 
             else
                 return result.CodeHttp == 400
-                    ? BadRequest(result.Message)
-                    : StatusCode(StatusCodes.Status500InternalServerError,
-                     new ErrorDto { Codigo = result.CodeError, Mensagem = result.Message });
+                    ? BadRequest(result.Mensagens)
+                    : StatusCode(StatusCodes.Status500InternalServerError,result.Mensagem);
         }
 
         [HttpGet("{id}")]
@@ -63,10 +62,9 @@ namespace ControleFinanceiro.Api.Controllers
 
             else
             {
-                var error = new ErrorDto { Codigo = result.CodeError, Mensagem = result.Message };
                 return result.CodeHttp == 400
-                    ? BadRequest(error)
-                    : StatusCode(StatusCodes.Status500InternalServerError, error);
+                    ? BadRequest(result.Mensagens)
+                    : StatusCode(StatusCodes.Status500InternalServerError, result.Mensagem);
             }
 
         }
@@ -83,12 +81,9 @@ namespace ControleFinanceiro.Api.Controllers
                 return StatusCode(StatusCodes.Status201Created);
 
             else
-            {
-                var error = new ErrorDto { Codigo = result.CodeError, Mensagem = result.Message };
                 return result.CodeHttp == 400
-                    ? BadRequest(error)
-                    : StatusCode(StatusCodes.Status500InternalServerError, error);
-            }
+                    ? BadRequest(result.Mensagens)
+                    : StatusCode(StatusCodes.Status500InternalServerError, result.Mensagem);
 
         }
 
@@ -110,12 +105,10 @@ namespace ControleFinanceiro.Api.Controllers
 
 
             else
-            {
-                var error = new ErrorDto { Codigo = result.CodeError, Mensagem = result.Message };
+            
                 return result.CodeHttp == 400
-                    ? BadRequest(error)
-                    : StatusCode(StatusCodes.Status500InternalServerError, error);
-            }
+                    ? BadRequest(result.Mensagens)
+                    : StatusCode(StatusCodes.Status500InternalServerError, result.Mensagem);
 
         }
 
@@ -129,12 +122,9 @@ namespace ControleFinanceiro.Api.Controllers
                 return Ok();
 
             else
-            {
-                var error = new ErrorDto { Codigo = result.CodeError, Mensagem = result.Message };
                 return result.CodeHttp == 400
-                    ? BadRequest(error)
-                    : StatusCode(StatusCodes.Status500InternalServerError, error);
-            }
+                    ? BadRequest(result.Mensagens)
+                    : StatusCode(StatusCodes.Status500InternalServerError, result.Mensagem);
 
         }
 

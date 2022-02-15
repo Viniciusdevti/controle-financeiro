@@ -4,9 +4,11 @@ namespace ControleFinanceiro.Api.Dtos.SubCategoriaDto
 {
     public class SubCategoriaCreateDto
     {
-        [Required]
+        [Required(ErrorMessage = "Campo Nome é obrigatorio. #CampoObrigatorio")]
+        [StringLength(300, ErrorMessage = "Quantidade maxima de caracteres para nome é 300. #MaximoCaracteres")]
         public string Nome { get; set; }
-        [Required]
-        public long IdCategoria { get; set; }
+
+        [Range(0, int.MaxValue, ErrorMessage = "Campo IdCategoria é obrigatorio. #CampoObrigatorio")]
+        public long IdCategoria { get; set; } = -1;
     }
 }

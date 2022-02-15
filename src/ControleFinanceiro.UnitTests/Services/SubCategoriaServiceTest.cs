@@ -11,45 +11,50 @@ using iCommercial.Api.Controllers;
 
 namespace ControleFinanceiro.UnitTests.Services
 {
-    public class CategoriaServiceTests
+    public class SubCategoriaServiceTests
     {
 
+        private SubCategoriaService SubCategoriaService;
         private CategoriaService categoriaService;
+        private BaseRepository<ControleFinanceiroDb, SubCategoria> _contextSubCategoria;
         private BaseRepository<ControleFinanceiroDb, Categoria> _contextCategoria;
         private const string _stringConnection = ":memory:";
         private ModelStateDictionary _modelState = new();
         private IConfiguration _configuration;
 
-        public CategoriaServiceTests()
+        public SubCategoriaServiceTests()
         {
+            _contextSubCategoria = new BaseRepository<ControleFinanceiroDb, SubCategoria>(_stringConnection);
             _contextCategoria = new BaseRepository<ControleFinanceiroDb, Categoria>(_stringConnection);
+            SubCategoriaService = new SubCategoriaService(_stringConnection);
             categoriaService = new CategoriaService(_stringConnection);
-            categoriaService.Post(new Categoria { Nome = "Categoria 1", });
-            categoriaService.Post(new Categoria { IdCategoria = 2, Nome = "Categoria 2", });
-            categoriaService.Post(new Categoria { IdCategoria = 3, Nome = "Categoria 3", });
+
+            categoriaService.Post(new Categoria { Nome = "Categoria 1" });
+            SubCategoriaService.Post(new SubCategoria { Nome = "SubCategoria 1", IdCategoria = 1 });
+            SubCategoriaService.Post(new SubCategoria { Nome = "SubCategoria 2", IdCategoria = 1 });
+            SubCategoriaService.Post(new SubCategoria { Nome = "SubCategoria 3", IdCategoria = 1 });
             IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
             _configuration = configurationBuilder.AddJsonFile("AppSettings.json").Build();
-
         }
 
         [Fact]
         public void ValidationServiceGetAll()
         {
-            var result = categoriaService.GetAll();
+            var result = SubCategoriaService.GetAll();
             Assert.True(result.Successfull);
         }
 
         [Fact]
         public void ValidationServiceGet()
         {
-            var result = categoriaService.Get(1);
+            var result = SubCategoriaService.Get(1);
             Assert.True(result.Successfull);
         }
 
         [Fact]
         public void InvalidServiceGet()
         {
-            var result = categoriaService.Get(100);
+            var result = SubCategoriaService.Get(100);
             Assert.Equal(result.Mensagens[0].Codigo, EnumErrors.IdNaoEncontrado.ToString());
         }
 
@@ -57,44 +62,60 @@ namespace ControleFinanceiro.UnitTests.Services
         [Fact]
         public void ValidationServicePost()
         {
-            var result = categoriaService.Post(new Categoria {  Nome = "Categoria 4" });
+            var result = SubCategoriaService.Post(new SubCategoria { Nome = "SubCategoria 4", IdCategoria = 1 });
             Assert.True(result.Successfull);
         }
 
         [Fact]
         public void InvalidServicePost()
         {
-            var result = categoriaService.Post(new Categoria { Nome = "Categoria 3", });
+            var result = SubCategoriaService.Post(new SubCategoria { Nome = "SubCategoria 2", IdCategoria = 1 });
             Assert.True(result.Mensagens[0].Codigo == EnumErrors.CampoUnico.ToString());
         }
+
         [Fact]
         public void ValidationServicePut()
         {
-            var result = categoriaService.Put(new Categoria { IdCategoria = 3, Nome = "Categoria 3" });
+            var result = SubCategoriaService.Put(new SubCategoria {
+                IdSubCategoria = 2, 
+                Nome = "SubCategoria 0",
+                IdCategoria = 1,
+            });
             Assert.True(result.Successfull);
         }
 
         [Fact]
         public void InvalidServicePut()
         {
-            var result = categoriaService.Put(new Categoria { IdCategoria = 100, Nome = "Categoria 0" });
-            Assert.Equal(result.Mensagens[0].Codigo, EnumErrors.IdNaoEncontrado.ToString());
-            var result2 = categoriaService.Put(new Categoria { IdCategoria = 2, Nome = "Categoria 3" });
-            Assert.Equal(result2.Mensagens[0].Codigo, EnumErrors.CampoUnico.ToString());
+            var result = SubCategoriaService.Put(new SubCategoria { 
+                IdSubCategoria = 100, 
+                Nome = "SubCategoria 0",
+                IdCategoria = 0,
 
+            });;
+            Assert.Equal(result.Mensagens[0].Codigo, EnumErrors.IdNaoEncontrado.ToString());
+            Assert.Equal(result.Mensagens[1].Codigo, EnumErrors.IdNaoEncontrado.ToString());
+            var result2 = SubCategoriaService.Put(new SubCategoria
+            {
+                IdSubCategoria = 3,
+                Nome = "SubCategoria 2",
+                IdCategoria = 1,
+
+            }); ;
+            Assert.Equal(result2.Mensagens[0].Codigo, EnumErrors.CampoUnico.ToString());
         }
 
         [Fact]
         public void ValidationServiceDelete()
         {
-            var result = categoriaService.Delete(1);
+            var result = SubCategoriaService.Delete(1);
             Assert.True(result.Successfull);
         }
 
         [Fact]
         public void InvalidServiceDelete()
         {
-            var result = categoriaService.Delete(100);
+            var result = SubCategoriaService.Delete(100);
             Assert.Equal(result.Mensagens[0].Codigo, EnumErrors.IdNaoEncontrado.ToString());
         }
     }

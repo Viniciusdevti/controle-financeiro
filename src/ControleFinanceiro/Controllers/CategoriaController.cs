@@ -14,6 +14,7 @@ namespace iCommercial.Api.Controllers
     [Route("api/v1/[controller]")]
     [ValidateModel]
     [ApiController]
+    //[ApiKey]
     public class CategoriaController : ControllerBase
     {
 
@@ -25,8 +26,6 @@ namespace iCommercial.Api.Controllers
         }
 
         [HttpGet]
-        [ApiKey]
-
         public ActionResult GetAll()
         {
 
@@ -38,14 +37,12 @@ namespace iCommercial.Api.Controllers
 
             else
                 return result.CodeHttp == 400
-                    ? BadRequest(result.Message)
-                    : StatusCode(StatusCodes.Status500InternalServerError,
-                     new ErrorDto { Codigo = result.CodeError, Mensagem = result.Message });
+                    ? BadRequest(result.Mensagens)
+                    : StatusCode(StatusCodes.Status500InternalServerError, result.Mensagem);
 
         }
 
         [HttpGet("{id}")]
-        [ApiKey]
         public ActionResult Get(long id)
         {
 
@@ -62,16 +59,12 @@ namespace iCommercial.Api.Controllers
             }
 
             else
-            {
-                var error = new ErrorDto { Codigo = result.CodeError, Mensagem = result.Message };
                 return result.CodeHttp == 400
-                    ? BadRequest(error)
-                    : StatusCode(StatusCodes.Status500InternalServerError, error);
-            }
+                    ? BadRequest(result.Mensagens)
+                    : StatusCode(StatusCodes.Status500InternalServerError, result.Mensagem);
 
         }
         [HttpPost]
-        [ApiKey]
         public ActionResult Post(CategoriaCreateDto categoriaDto)
         {
             var categoria = new Categoria { Nome = categoriaDto.Nome };
@@ -80,17 +73,13 @@ namespace iCommercial.Api.Controllers
                 return StatusCode(StatusCodes.Status201Created);
 
             else
-            {
-                var error = new ErrorDto { Codigo = result.CodeError, Mensagem = result.Message };
                 return result.CodeHttp == 400
-                    ? BadRequest(error)
-                    : StatusCode(StatusCodes.Status500InternalServerError, error);
-            }
+                    ? BadRequest(result.Mensagens)
+                    : StatusCode(StatusCodes.Status500InternalServerError, result.Mensagem);
 
         }
 
         [HttpPut]
-        [ApiKey]
         public ActionResult Put([FromBody] CategoriaUpdateDto categoriaDto)
         {
 
@@ -108,17 +97,13 @@ namespace iCommercial.Api.Controllers
 
 
             else
-            {
-                var error = new ErrorDto { Codigo = result.CodeError, Mensagem = result.Message };
                 return result.CodeHttp == 400
-                    ? BadRequest(error)
-                    : StatusCode(StatusCodes.Status500InternalServerError, error);
-            }
+                    ? BadRequest(result.Mensagens)
+                    : StatusCode(StatusCodes.Status500InternalServerError, result.Mensagem);
 
         }
 
         [HttpDelete]
-        [ApiKey]
         public ActionResult Delete(long id)
         {
 
@@ -127,12 +112,9 @@ namespace iCommercial.Api.Controllers
                 return Ok();
 
             else
-            {
-                var error = new ErrorDto { Codigo = result.CodeError, Mensagem = result.Message };
                 return result.CodeHttp == 400
-                    ? BadRequest(error)
-                    : StatusCode(StatusCodes.Status500InternalServerError, error);
-            }
+                    ? BadRequest(result.Mensagens)
+                    : StatusCode(StatusCodes.Status500InternalServerError, result.Mensagem);
 
         }
     }
