@@ -36,6 +36,7 @@ namespace ControleFinanceiro
             services.AddSingleton<ICategoriaService>(new CategoriaService(Configuration.GetSection("SQLSERVER").GetSection("CONNECTIONSTRING").Value));
             services.AddSingleton<ISubCategoriaService>(new SubCategoriaService(Configuration.GetSection("SQLSERVER").GetSection("CONNECTIONSTRING").Value));
             services.AddSingleton<ICategoriaService>(new CategoriaService(Configuration.GetSection("SQLSERVER").GetSection("CONNECTIONSTRING").Value));
+            services.AddSingleton<ILancamentoService>(new LancamentoService(Configuration.GetSection("SQLSERVER").GetSection("CONNECTIONSTRING").Value));
 
             services.AddControllers().ConfigureApiBehaviorOptions(options =>
             {

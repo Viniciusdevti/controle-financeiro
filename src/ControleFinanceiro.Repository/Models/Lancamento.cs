@@ -14,6 +14,11 @@ namespace ControleFinanceiro.Model.Models
         [Required]
         public DateTime Data { get; set; }
         public string Comentario { get; set; }
+        [Required]
+        [ForeignKey("SubCategoria")]
+        public long IdSubCategoria { get; set; }
+
+        public virtual SubCategoria SubCategoria { get; set; }
         public bool Ativo { get; set; } = true;
     }
 }

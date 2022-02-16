@@ -31,12 +31,10 @@ namespace ControleFinanceiro.Api.Helpers
 
         public ValidationResultModel(ModelStateDictionary modelState)
         {
-
             Mensagens = modelState.Keys
                     .SelectMany(key => modelState[key].Errors.Select(x => new ValidationError(
-                        x.ErrorMessage.Split('#')[0].Trim(),
-                        x.ErrorMessage.Split('#')[1]
-                        )))
+                        x.ErrorMessage.Contains("#") ? x.ErrorMessage.Split('#')[0].Trim() : "NI/NA",
+                        x.ErrorMessage.Contains("#") ? x.ErrorMessage.Split('#')[1] : "NI/NA")))
                     .ToList();
         }
     }

@@ -6,10 +6,10 @@ namespace ControleFinanceiro.Service.Interfaces
     public interface ILancamentoService
     {
 
-        ServiceMessage<Categoria> GetAll();
-        ServiceMessage<Categoria> Get(long id);
-        ServiceMessage<Categoria> Post(Categoria categoria);
-        ServiceMessage<Categoria> Put(Categoria categoria);
-        ServiceMessage<Categoria> Delete(long id);
+        ServiceMessage<Lancamento> GetAll();
+        ServiceMessage<Lancamento> Get(long id);
+        ServiceMessage<Lancamento> Post(Lancamento Lancamento);
+        ServiceMessage<Lancamento> Put(Lancamento Lancamento);
+        ServiceMessage<Lancamento> Delete(long id);
     }
 }
