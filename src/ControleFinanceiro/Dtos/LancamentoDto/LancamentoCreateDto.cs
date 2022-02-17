@@ -6,8 +6,7 @@ namespace ControleFinanceiro.Api.Dtos.LancamentoDto
     public class LancamentoCreateDto
     {
 
-
-        public long Valor { get; set; }
+        public long Valor { get; set; } = 0;
         public DateTime Data { get; set; }
 
         [Range(0, int.MaxValue, ErrorMessage = "Campo IdSubCategoria é obrigatorio. #CampoObrigatorio")]

@@ -72,7 +72,7 @@ namespace ControleFinanceiro.Service.Services
             try
             {
 
-                ValidationErrosPost(Lancamento.IdSubCategoria, serviceMessage);
+                ValidationErrosPost(Lancamento, serviceMessage);
                 if (serviceMessage.Mensagens.Count > 0)
                 {
                     serviceMessage.CodeHttp = 400;
@@ -90,14 +90,15 @@ namespace ControleFinanceiro.Service.Services
             }
         }
 
-        public ServiceMessage<Lancamento> Put(Lancamento Lancamento)
+        public ServiceMessage<Lancamento> Put(Lancamento lancamento)
         {
             ServiceMessage<Lancamento> serviceMessage = new();
             try
             {
-                var result = myRepository.Find(x => x.IdLancamento == Lancamento.IdLancamento && x.Ativo == true);
+                var result = myRepository.Find(x => x.IdLancamento == lancamento.IdLancamento && x.Ativo == true);
                
-                ValidationErrosUpdate(Lancamento.IdLancamento, serviceMessage, result);
+                ValidationErrosUpdate(lancamento, serviceMessage, result);
+                
 
                 if (serviceMessage.Mensagens.Count > 0)
                 {
@@ -105,7 +106,7 @@ namespace ControleFinanceiro.Service.Services
                     return serviceMessage;
                 }
 
-                myRepository.Edit(result, Lancamento);
+                myRepository.Edit(result, lancamento);
 
                 serviceMessage.Successfull = true;
                 return serviceMessage;
@@ -147,14 +148,17 @@ namespace ControleFinanceiro.Service.Services
             }
         }
 
-        public void ValidationErrosUpdate(long id, ServiceMessage<Lancamento> serviceMessage, Lancamento entity)
+        public void ValidationErrosUpdate(Lancamento lancamento, ServiceMessage<Lancamento> serviceMessage, Lancamento entity)
         {
+            if (ExistErrosGenerics(lancamento, serviceMessage))
+                return;
 
+                
             if (entity == null)
                 serviceMessage.AddReturnBadRequest("Id de Lancamento não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
 
 
-            if (!myRepositorySubCategoria.Any(x => x.IdSubCategoria == id && x.Ativo == true))
+            if (!myRepositorySubCategoria.Any(x => x.IdSubCategoria == lancamento.IdSubCategoria && x.Ativo == true))
             {
                 serviceMessage.AddReturnBadRequest("Id da  Subcategoria não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
                 return;
@@ -162,14 +166,35 @@ namespace ControleFinanceiro.Service.Services
 
 
         }
-        public void ValidationErrosPost(long id, ServiceMessage<Lancamento> serviceMessage)
+        public void ValidationErrosPost(Lancamento lancamento, ServiceMessage<Lancamento> serviceMessage)
         {
-            if (!myRepositorySubCategoria.Any(x => x.IdSubCategoria == id && x.Ativo == true))
+            if (ExistErrosGenerics(lancamento, serviceMessage))
+                return;
+
+            if (!myRepositorySubCategoria.Any(x => x.IdSubCategoria == lancamento.IdSubCategoria && x.Ativo == true))
             {
                 serviceMessage.AddReturnBadRequest("Id de Subcategoria não encontrado.", EnumErrors.IdNaoEncontrado.ToString());
                 return;
             }
 
+        }
+
+        public bool ExistErrosGenerics(Lancamento lancamento, ServiceMessage<Lancamento> serviceMessage)
+        {
+            if(lancamento.Data.Date > DateTime.Now.Date)
+            { 
+                serviceMessage.AddReturnBadRequest("A data informada não é valida.", EnumErrors.DataInvalida.ToString());
+                return true;
+            }
+
+            if (lancamento.Valor == 0)
+            {
+
+                serviceMessage.AddReturnBadRequest("O valor do lançamento não pode ser 0.", EnumErrors.ValorInvalido.ToString());
+                return true;
+            }
+
+            return false;
         }
     }
 }

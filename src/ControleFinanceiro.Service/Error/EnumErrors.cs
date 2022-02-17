@@ -9,6 +9,8 @@ namespace ControleFinanceiro.Api.Helpers.Error
         CampoObrigatorio,
         MaximoCaracteres,
         CampoUnico,
+        ValorInvalido,
+        DataInvalida
 
     }
 }
