@@ -10,7 +10,8 @@ namespace ControleFinanceiro.Api.Helpers.Error
         MaximoCaracteres,
         CampoUnico,
         ValorInvalido,
-        DataInvalida
+        DataInvalida,
+        BalancoNaoEncontrado
 
     }
 }

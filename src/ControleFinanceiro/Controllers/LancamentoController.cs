@@ -84,7 +84,7 @@ namespace ControleFinanceiro.Api.Controllers
             var lancamento = new Lancamento
             {
                 Valor = lancamentoDto.Valor,
-                Data = lancamentoDto.Data,
+                Data = lancamentoDto.Data.Date,
                 IdSubCategoria = lancamentoDto.IdSubCategoria,
                 Comentario = lancamentoDto.Comentario,
             };
@@ -107,8 +107,8 @@ namespace ControleFinanceiro.Api.Controllers
             var lancamento = new Lancamento 
             {
                 IdLancamento = lancamentoDto.IdLancamento,
-               Valor = lancamentoDto.Valor,
-                Data = lancamentoDto.Data,
+                Valor = lancamentoDto.Valor,
+                Data = lancamentoDto.Data.Date,
                 IdSubCategoria = lancamentoDto.IdSubCategoria,
                 Comentario = lancamentoDto.Comentario,
             };

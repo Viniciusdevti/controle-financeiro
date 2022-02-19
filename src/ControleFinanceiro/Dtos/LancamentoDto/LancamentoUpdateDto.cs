@@ -13,7 +13,7 @@ namespace ControleFinanceiro.Api.Dtos.LancamentoDto
         [Range(0, int.MaxValue, ErrorMessage = "Campo IdSubCategoria é obrigatorio. #CampoObrigatorio")]
         public long IdSubCategoria { get; set; } = -1;
 
-        [StringLength(300, ErrorMessage = "Quantidade maxima de caracteres para comentario é 1000. #MaximoCaracteres")]
+        [StringLength(1000, ErrorMessage = "Quantidade maxima de caracteres para comentario é 1000. #MaximoCaracteres")]
         public string Comentario { get; set; }
     }
 }

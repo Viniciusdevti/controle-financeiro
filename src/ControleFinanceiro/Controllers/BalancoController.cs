@@ -1,4 +1,5 @@
 ﻿using ControleFinanceiro.Api.Dtos;
+using ControleFinanceiro.Api.Dtos.Balanco;
 using ControleFinanceiro.Api.Dtos.CategoriaDto;
 using ControleFinanceiro.Api.Helpers;
 using ControleFinanceiro.Model.Models;
@@ -26,16 +27,16 @@ namespace iCommercial.Api.Controllers
         }
 
         
-        [HttpGet("{id}")]
-        public ActionResult Get()
+        [HttpGet]
+        public ActionResult Get([FromQuery] BalancoGetDto balancoDto)
         {
 
-            var result = _service.Get();
+            var result = _service.Get(balancoDto.DataInicio, balancoDto.DataFim, balancoDto.Id);
 
             if (result.Successfull)
             {
                
-                return Ok();
+                return Ok(result.Result);
             }
 
             else

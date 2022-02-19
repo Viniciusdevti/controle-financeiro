@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using ControleFinanceiro.Repository.Interfaces;
+using ControleFinanceiro.Model.Models;
 
 namespace ControleFinanceiro.Repository.Repository
 {
@@ -59,6 +60,24 @@ namespace ControleFinanceiro.Repository.Repository
             return table.AsNoTracking().ToList();
         }
         public List<TTable> List(Expression<Func<TTable, bool>> expression) => table.AsNoTracking().Where(expression).ToList();
+        public List<Lancamento> ListLancamento(DateTime dateInit, DateTime dateFinal, long id)
+        {
+            var entity = db.Set<Lancamento>();
+            return id == -1
+                ? entity.Include(x => x.SubCategoria).
+                Where(x => x.Data.Date >= dateInit.Date
+                && x.Data.Date <= dateFinal.Date).ToList()
+                
+                : entity.Include(x => x.SubCategoria).
+                Where(x => x.SubCategoria.IdCategoria == id
+                && x.Data.Date >= dateInit.Date
+                &&  x.Data.Date  <= dateFinal.Date).ToList();
+
+
+
+
+
+        }
 
         public void Remove(int[] keyValues)
         {
