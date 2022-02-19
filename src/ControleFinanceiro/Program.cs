@@ -1,11 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Serilog;
+using Serilog.Sinks.MSSqlServer;
 
 namespace ControleFinanceiro
 {
@@ -17,7 +14,22 @@ namespace ControleFinanceiro
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
+
+
             Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((hosting, config) =>
+            {
+                var configurarionRoot = config.Build();
+
+                Serilog.Log.Logger = new LoggerConfiguration()
+                   .Enrich.FromLogContext()
+                   .WriteTo.MSSqlServer(configurarionRoot.GetConnectionString("SERILOGS"),
+                       sinkOptions: new MSSqlServerSinkOptions
+                       {
+                           AutoCreateSqlTable = true,
+                           TableName = "Logs"
+                       }).CreateLogger();
+            }).UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
