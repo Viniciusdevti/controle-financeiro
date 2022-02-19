@@ -14,7 +14,7 @@ using Xunit;
 
 namespace ControleFinanceiro.UnitTests.Controllers
 {
-    public class CategoriaControllerTest
+    public class CategoriaControllerTests
     {
         private CategoriaService categoriaService;
         private BaseRepository<ControleFinanceiroDb, Categoria> _contextCategoria;
@@ -23,7 +23,7 @@ namespace ControleFinanceiro.UnitTests.Controllers
         private IConfiguration _configuration;
        
 
-        public CategoriaControllerTest()
+        public CategoriaControllerTests()
         {
             _contextCategoria = new BaseRepository<ControleFinanceiroDb, Categoria>(_stringConnection);
             categoriaService = new CategoriaService(_stringConnection);

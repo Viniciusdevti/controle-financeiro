@@ -10,7 +10,7 @@ using System;
 
 namespace ControleFinanceiro.UnitTests.Services
 {
-    public class LancamentoServiceTest
+    public class LancamentoServiceTests
     {
 
         private LancamentoService lancamentoService;
@@ -19,7 +19,7 @@ namespace ControleFinanceiro.UnitTests.Services
         private ModelStateDictionary _modelState = new();
         private IConfiguration _configuration;
 
-        public LancamentoServiceTest()
+        public LancamentoServiceTests()
         {
             lancamentoService = new LancamentoService(_stringConnection);
             _contextLancamento = new BaseRepository<ControleFinanceiroDb, Lancamento>(_stringConnection);
