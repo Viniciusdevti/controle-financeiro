@@ -18,7 +18,7 @@ CREATE TABLE [dbo].SubCategoria(
 
 	CREATE TABLE [dbo].Lancamento(
 	[IdLancamento]  bigInt IDENTITY(1, 1) NOT NULL PRIMARY KEY CLUSTERED,
-	[Valor] float NOT NULL,
+	[Valor] double NOT NULL,
 	[DATA] datetime NOT NULL,
 	[IdSubCategoria] bigInt NOT NULL FOREIGN KEY REFERENCES [dbo].SubCategoria ([IdSubCategoria]),
 	[Comentario] nvarchar(300) NULL,
