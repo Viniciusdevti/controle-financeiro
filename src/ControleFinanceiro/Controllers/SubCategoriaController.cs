@@ -30,7 +30,7 @@ namespace ControleFinanceiro.Api.Controllers
         {
 
             var result = _service.GetAll();
-            var resultFinal = result.ResultList.Select(x => new  { x.IdSubCategoria, x.Nome, x.IdCategoria  });
+            var resultFinal = result.ResultList != null ? result.ResultList.Select(x => new { x.IdSubCategoria, x.Nome, x.IdCategoria }) : null;
 
             if (result.Successfull)
                 return Ok(resultFinal);

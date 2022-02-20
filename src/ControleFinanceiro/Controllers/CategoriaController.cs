@@ -6,6 +6,8 @@ using ControleFinanceiro.Service.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
@@ -28,9 +30,10 @@ namespace iCommercial.Api.Controllers
         [HttpGet]
         public ActionResult GetAll()
         {
+           
 
             var result = _service.GetAll();
-            var resultFinal = result.ResultList.Select(x => new { x.IdCategoria, x.Nome });
+            var resultFinal = result.ResultList != null ? result.ResultList.Select(x => new { x.IdCategoria, x.Nome }) : null;
 
             if (result.Successfull)
                 return Ok(resultFinal);
