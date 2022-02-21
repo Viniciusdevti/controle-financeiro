@@ -2,6 +2,7 @@
 using ControleFinanceiro.Api.Dtos.LancamentoDto;
 using ControleFinanceiro.Model.Models;
 using ControleFinanceiro.Service.Interfaces;
+using ControleFinanceiro.Service.Services.Export;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -141,5 +142,31 @@ namespace ControleFinanceiro.Api.Controllers
 
         }
 
+
+        [HttpGet]
+        [Route("Export")]
+        public ActionResult Export()
+        {
+
+            var result = _service.GetAll();
+
+            if (result.Successfull)
+            {
+                var resultFinal = new LancamentoServiceExport().Export(result.ResultList);
+                string fileName = "Lancamento.xlsx";
+
+                return result.Successfull
+                    ? File(resultFinal.Result, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName)
+                    : StatusCode(StatusCodes.Status500InternalServerError, resultFinal.Mensagem);
+            }
+
+            else
+                return result.CodeHttp == 400
+                    ? BadRequest(result.Mensagens)
+                    : StatusCode(StatusCodes.Status500InternalServerError, result.Mensagem);
+
+        }
+
     }
+
 }
