@@ -3,8 +3,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:55910",
-      "sslPort": 44384
+      "applicationUrl": "http://localhost:20397",
+      "sslPort": 44329
     }
   },
   "profiles": {
@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "ControleFinanceiro": {
+    "ControleFinanceiro.Util": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,
@@ -24,8 +24,5 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
-  },
-  "SQLSERVER": {
-    "CONNECTIONSTRING": "Server= VINICIUS\\SA;Database=controleFinanceiro;User sa;Password=1234"
   }
 }
