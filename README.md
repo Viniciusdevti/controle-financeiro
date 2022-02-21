@@ -98,7 +98,7 @@ Para executar os testes basta abrir o gerenciador de testes do visual studio.
 
 Os testes devem ser executados por cada classe de teste, por exemplo: balancoController => executar
 	
-	 <img   src="https://github.com/Viniciusdevti/assets/blob/main/controleFinanceiro/testes02.png"> 
+ <img   src="https://github.com/Viniciusdevti/assets/blob/main/controleFinanceiro/testes02.png"> 
 	
 	
 </p>
