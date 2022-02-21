@@ -14,6 +14,7 @@ namespace ControleFinanceiro.Api.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [ApiKey]
     public class SubCategoriaController : ControllerBase
     {
 

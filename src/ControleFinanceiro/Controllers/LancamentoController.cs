@@ -12,7 +12,7 @@ namespace ControleFinanceiro.Api.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    //[ApiKey]
+    [ApiKey]
     public class LancamentoController : ControllerBase
     {
 

@@ -99,7 +99,9 @@ namespace ControleFinanceiro.Service.Services
             {
                 var result = myRepository.Find(x => x.IdSubCategoria == subCategoria.IdSubCategoria && x.Ativo == true);
                 var resultCategoria = myRepository.Any(
-                   x => x.Nome == subCategoria.Nome && x.IdSubCategoria != subCategoria.IdCategoria && x.Ativo == true);
+                   x => x.Nome == subCategoria.Nome && x.IdSubCategoria != subCategoria.IdCategoria 
+                   &&  x.IdSubCategoria != subCategoria.IdSubCategoria
+                   && x.Ativo == true);
                 ValidationErrosUpdate(subCategoria.IdCategoria, serviceMessage, result, resultCategoria);
 
                 if (serviceMessage.Mensagens.Count > 0)

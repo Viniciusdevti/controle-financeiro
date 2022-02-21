@@ -1,5 +1,6 @@
 ﻿using ControleFinanceiro.Api.Helpers.Error;
 using ControleFinanceiro.DataContext;
+using ControleFinanceiro.DataContext.BaseQuery;
 using ControleFinanceiro.DataContext.Models.ModelBase;
 using ControleFinanceiro.Model.Models;
 using ControleFinanceiro.Repository.Repository;
@@ -22,12 +23,13 @@ namespace ControleFinanceiro.Service.Services
         {
 
             ServiceMessage<Balanco> serviceMessage = new();
+            serviceMessage.Result = new();
             try
             {
-               (DateTime, DateTime) date = (dataInicio, dataFim);
+                (DateTime, DateTime) date = (dataInicio, dataFim);
                 ValidationRules(serviceMessage, date);
 
-                if(serviceMessage.Mensagens.Count > 0)
+                if (serviceMessage.Mensagens.Count > 0)
                 {
                     serviceMessage.CodeHttp = 400;
                     return serviceMessage;
@@ -46,6 +48,14 @@ namespace ControleFinanceiro.Service.Services
 
                 CalculateValues(lancamentoEntity, serviceMessage);
 
+                if (id != -1)
+                {
+                    serviceMessage.Result.Categoria = new();
+                    serviceMessage.Result.Categoria.IdCategoria = lancamentoEntity[0].Categoria.IdCategoria;
+                    serviceMessage.Result.Categoria.Nome = lancamentoEntity[0].Categoria.Nome;
+                }
+
+
                 serviceMessage.Successfull = true;
                 return serviceMessage;
             }
@@ -60,7 +70,7 @@ namespace ControleFinanceiro.Service.Services
         private void ValidationRules(ServiceMessage<Balanco> serviceMessage, (DateTime, DateTime) date)
         {
 
-           if(date.Item1.Date > date.Item2.Date)
+            if (date.Item1.Date > date.Item2.Date)
                 serviceMessage.AddReturnBadRequest("A data inicial não pode ser maior que a final", EnumErrors.DataInvalida.ToString());
 
             if (date.Item1 > DateTime.Now.Date || date.Item2 > DateTime.Now.Date)
@@ -68,7 +78,7 @@ namespace ControleFinanceiro.Service.Services
 
         }
 
-        public void CalculateValues(List<Lancamento> lancamento, ServiceMessage<Balanco> serviceMessage)
+        public void CalculateValues(List<LancamentoQuery> lancamento, ServiceMessage<Balanco> serviceMessage)
         {
             long positiveNumber = 0;
             long negativeNumber = 0;
@@ -76,11 +86,10 @@ namespace ControleFinanceiro.Service.Services
             foreach (var item in lancamento)
             {
                 if (item.Valor > 0)
-                    positiveNumber = +item.Valor;
+                    positiveNumber += item.Valor;
                 else
                     negativeNumber = (negativeNumber) + (item.Valor);
             }
-            serviceMessage.Result = new();
             serviceMessage.Result.Receita = positiveNumber.ToString("C");
             serviceMessage.Result.Despesa = negativeNumber.ToString("C");
             serviceMessage.Result.Saldo = (negativeNumber + positiveNumber).ToString("C");

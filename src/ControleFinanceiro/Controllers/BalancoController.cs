@@ -15,7 +15,7 @@ namespace iCommercial.Api.Controllers
     [Route("api/v1/[controller]")]
     [ValidateModel]
     [ApiController]
-    //[ApiKey]
+    [ApiKey]
     public class BalancoController : ControllerBase
     {
 

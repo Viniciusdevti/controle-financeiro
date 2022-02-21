@@ -33,8 +33,8 @@ namespace ControleFinanceiro.Api.Helpers
         {
             Mensagens = modelState.Keys
                     .SelectMany(key => modelState[key].Errors.Select(x => new ValidationError(
-                        x.ErrorMessage.Contains("#") ? x.ErrorMessage.Split('#')[0].Trim() : "NI/NA",
-                        x.ErrorMessage.Contains("#") ? x.ErrorMessage.Split('#')[1] : "NI/NA")))
+                        x.ErrorMessage.Contains("#") ? x.ErrorMessage.Split('#')[0].Trim() : "Erro de formatação",
+                        x.ErrorMessage.Contains("#") ? x.ErrorMessage.Split('#')[1] : "Formato de requisição não suportado")))
                     .ToList();
         }
     }
