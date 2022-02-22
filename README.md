@@ -58,11 +58,11 @@ docker pull viniciusdevti/controle_financeiro_db
 
 docker run -t -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=fakePassw0rd' -p 1433:1433 --name sql1 -d viniciusdevti/controle_financeiro_db
 
-execute o comando: 	 docker exec -it sql1 "bash"
-execute o comando: 	 uname -a
-execute o comando: 	 cd /opt/mssql-tools/bin
-execute o comando:	 pwd
-execute o comando:	 ./sqlcmd -S localhost -U SA
+	execute o comando: docker exec -it sql1 "bash"
+	execute o comando: uname -a
+	execute o comando: cd /opt/mssql-tools/bin
+	execute o comando: pwd
+	execute o comando: ./sqlcmd -S localhost -U SA
 
 Digite a senha do banco: fakePassw0rd (precione ENTER).
 
