@@ -16,7 +16,7 @@
 
 # Controle Financeiro
 
-Projeto foi desenvolvido, foi uma api de controle de finaças. Onde é possivel fazer o crud de cadastrar categorias, subcategorias e lançamentos, positivos e negativos. Também é possivel fazer um balanço para saber as despesas, receita e o saldo.
+Projeto foi desenvolvido, foi uma api de controle de finaças. Onde é possivel fazer o crud categorias, subcategorias e lançamentos, positivos e negativos. Também é possivel fazer um balanço para saber as despesas, receita e o saldo.
 
 
 
@@ -31,7 +31,7 @@ Faça checkout na branch main.
 Abra o visual studio selecione o projeto da api e click em executar.
  <img   src="https://github.com/Viniciusdevti/assets/blob/main/controleFinanceiro/iniciar%20projeto.png">
 	
-Para configurar as informações do banco de dados
+Para configurar as informações do banco de dados:
 
 Caso utilize o proprio sql server altere a CONNECTIONSTRING no arquivo appsettings.json.
 Ex:
@@ -58,11 +58,11 @@ docker pull viniciusdevti/controle_financeiro_db
 
 docker run -t -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=fakePassw0rd' -p 1433:1433 --name sql1 -d viniciusdevti/controle_financeiro_db
 
-execute o comando: docker exec -it sql1 "bash"
-execute o comando: uname -a
-execute o comando: cd /opt/mssql-tools/bin
-execute o comando: pwd
-execute o comando: ./sqlcmd -S localhost -U SA
+execute o comando: 	 docker exec -it sql1 "bash"
+execute o comando: 	 uname -a
+execute o comando: 	 cd /opt/mssql-tools/bin
+execute o comando:	 pwd
+execute o comando:	 ./sqlcmd -S localhost -U SA
 
 Digite a senha do banco: fakePassw0rd (precione ENTER).
 
